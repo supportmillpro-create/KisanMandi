@@ -28,11 +28,11 @@ jobs:
       - run: npx cap add android
       - name: App icon and location permission
         run: |
-          sudo apt-get install -y imagemagick >/dev/null
+          IM=$(command -v magick || command -v convert)
           for d in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
             n=${d%%:*}; sz=${d##*:}
             for f in ic_launcher ic_launcher_round ic_launcher_foreground; do
-              convert public/logo.png -resize ${sz}x${sz} android/app/src/main/res/mipmap-$n/$f.png
+              $IM public/logo.png -resize ${sz}x${sz} android/app/src/main/res/mipmap-$n/$f.png
             done
           done
           rm -rf android/app/src/main/res/mipmap-anydpi-v26
