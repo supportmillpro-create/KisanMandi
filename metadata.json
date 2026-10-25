@@ -1,0 +1,6 @@
+{
+  "name": "KisanMandi - Agri Commodities Marketplace",
+  "description": "OLX-style agricultural commodities marketplace for Wheat, Rice, Flour, Pulses, and Grains with mobile verification, digital wallet, pay-per-contact model, and admin console.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

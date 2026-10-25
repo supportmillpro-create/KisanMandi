@@ -1,0 +1,45 @@
+{
+  "id": "/",
+  "name": "KisanMandi - Agri Commodities Marketplace",
+  "short_name": "KisanMandi",
+  "description": "Pakistan's Premier Agricultural Commodity Marketplace for Wheat, Rice, Cotton, Maize, Flour & Pulses",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#064e3b",
+  "theme_color": "#064e3b",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": [
+    "business",
+    "shopping",
+    "finance"
+  ],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

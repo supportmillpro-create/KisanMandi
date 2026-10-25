@@ -1,0 +1,9 @@
+{
+  "appId": "com.kisanmandi.app",
+  "appName": "KisanMandi",
+  "webDir": "dist",
+  "server": {
+    "url": "https://kisanmandi921.pythonanywhere.com",
+    "cleartext": false
+  }
+}
