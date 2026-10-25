@@ -28,13 +28,15 @@ jobs:
       - run: npx cap add android
       - name: App icon and location permission
         run: |
-          IM=$(command -v magick || command -v convert)
-          for d in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
-            n=${d%%:*}; sz=${d##*:}
-            for f in ic_launcher ic_launcher_round ic_launcher_foreground; do
-              $IM public/logo.png -resize ${sz}x${sz} android/app/src/main/res/mipmap-$n/$f.png
-            done
-          done
+          pip install pillow
+          python3 - <<'PY'
+          from PIL import Image
+          img = Image.open('public/logo.png').convert('RGBA')
+          sizes = {'mdpi': 48, 'hdpi': 72, 'xhdpi': 96, 'xxhdpi': 144, 'xxxhdpi': 192}
+          for n, sz in sizes.items():
+              for f in ('ic_launcher', 'ic_launcher_round', 'ic_launcher_foreground'):
+                  img.resize((sz, sz), Image.LANCZOS).save(f'android/app/src/main/res/mipmap-{n}/{f}.png')
+          PY
           rm -rf android/app/src/main/res/mipmap-anydpi-v26
           M=android/app/src/main/AndroidManifest.xml
           sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />#' $M
