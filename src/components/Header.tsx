@@ -91,9 +91,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="flex items-center gap-2 group cursor-pointer select-none"
               title="KisanMandi"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center text-amber-400 shadow-md shadow-emerald-900/10 group-hover:scale-105 transition transform shrink-0">
-                <Sprout className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
-              </div>
+              <img src="/logo.png" alt="KisanMandi" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shadow-md shrink-0 group-hover:scale-105 transition transform" />
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 font-display">

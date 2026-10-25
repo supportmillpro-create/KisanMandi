@@ -16,6 +16,9 @@ export interface User {
   referredBy?: string;
   referralCredits: number; // Free contact reveals available (1 free unlock per referral!)
   totalReferralsCount: number;
+  lat?: number;
+  lng?: number;
+  locationAt?: string;
 }
 
 export interface Review {

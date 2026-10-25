@@ -5,5 +5,8 @@
   "server": {
     "url": "https://kisanmandi921.pythonanywhere.com",
     "cleartext": false
+  },
+  "android": {
+    "adjustMarginsForEdgeToEdge": "force"
   }
 }

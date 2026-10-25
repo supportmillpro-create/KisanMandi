@@ -444,6 +444,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       </td>
                       <td className="py-3 px-3 text-slate-600">
                         {u.city}, {u.area}
+                        {u.lat != null && u.lng != null && (
+                          <a
+                            href={`https://www.google.com/maps?q=${u.lat},${u.lng}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="block text-[11px] text-emerald-700 underline"
+                          >
+                            📍 {u.lat}, {u.lng}
+                          </a>
+                        )}
                       </td>
                       <td className="py-3 px-3 text-right">
                         <span className="font-mono font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">

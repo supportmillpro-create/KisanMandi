@@ -98,6 +98,26 @@ export default function App() {
     }, 3500);
   };
 
+  // Ask for location once after login (optional: app works fine if user says no)
+  useEffect(() => {
+    if (!currentUser || currentUser.role === 'admin') return;
+    let asked = false;
+    try { asked = localStorage.getItem('km_loc_asked_' + currentUser.id) === '1'; } catch {}
+    if (asked || !('geolocation' in navigator)) return;
+    try { localStorage.setItem('km_loc_asked_' + currentUser.id, '1'); } catch {}
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        storageService.updateUserProfile(currentUser.id, {
+          lat: Number(pos.coords.latitude.toFixed(5)),
+          lng: Number(pos.coords.longitude.toFixed(5)),
+          locationAt: new Date().toISOString(),
+        });
+      },
+      () => {},
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 600000 }
+    );
+  }, [currentUser?.id]);
+
   // Initial load
   useEffect(() => {
     // Sync with central cloud database
@@ -338,7 +358,7 @@ export default function App() {
   }, [listings, selectedCategory, selectedCity, searchQuery, sortBy, filterUnlockedOnly, currentUser, isAdminView]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans pb-16 md:pb-0">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans md:pb-0 pb-[calc(4rem+env(safe-area-inset-bottom))] pt-[env(safe-area-inset-top)]">
       {/* Toast Notification Banner */}
       {toast && (
         <div className="fixed top-14 right-4 z-50 max-w-md animate-fade-in">
@@ -607,7 +627,7 @@ export default function App() {
       {/* ========================================================= */}
       {/* MOBILE BOTTOM NAVIGATION BAR (Mobile Phone App UI) */}
       {/* ========================================================= */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 md:hidden px-4 py-2 flex items-center justify-around shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 md:hidden px-4 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] flex items-center justify-around shadow-lg">
         {/* Market Home */}
         <button
           onClick={() => {
