@@ -1,10 +1,13 @@
+# Builds an installable Android app (APK) that opens the KisanMandi server,
+# and also saves the web files (dist) for uploading to the server.
+# Run it: GitHub repo -> Actions -> "Build APK" -> Run workflow. Download from the "Artifacts" box.
 name: Build APK
 on:
   workflow_dispatch:
   push:
     branches: [main]
 jobs:
-  build:
+  apk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,10 +20,28 @@ jobs:
           java-version: 21
       - run: npm install --legacy-peer-deps
       - run: npm run build
-      - run: npm install --no-save @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KisanMandi-web-dist
+          path: dist
+      - run: npm install --no-save --legacy-peer-deps @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
       - run: npx cap add android
+      - name: App icon and location permission
+        run: |
+          sudo apt-get install -y imagemagick >/dev/null
+          for d in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            n=${d%%:*}; sz=${d##*:}
+            for f in ic_launcher ic_launcher_round ic_launcher_foreground; do
+              convert public/logo.png -resize ${sz}x${sz} android/app/src/main/res/mipmap-$n/$f.png
+            done
+          done
+          rm -rf android/app/src/main/res/mipmap-anydpi-v26
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />#' $M
+          grep -n "permission" $M
       - run: npx cap sync android
-      - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
+      - run: chmod +x gradlew && ./gradlew assembleDebug
+        working-directory: android
       - uses: actions/upload-artifact@v4
         with:
           name: KisanMandi-apk
